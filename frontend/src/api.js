@@ -41,4 +41,12 @@ export const api = {
   listOrders: () => request("/orders"),
   getOrder: (id) => request(`/orders/${id}`),
   cancelOrder: (id) => request(`/orders/${id}/cancel`, { method: "POST" }),
+
+  // Courier (features #7 and #8)
+  courierOrders: (courierId) => request(`/courier/${courierId}/orders`),
+  courierOrder: (id) => request(`/courier/orders/${id}`),
+  acceptOrder: (id) => request(`/courier/orders/${id}/accept`, { method: "POST" }),
+  declineOrder: (id) => request(`/courier/orders/${id}/decline`, { method: "POST" }),
+  updateOrderStatus: (id, status) =>
+    request(`/courier/orders/${id}/status`, { method: "PATCH", body: { status } }),
 };

@@ -7,10 +7,12 @@ try:
     from .db import close_db, init_db
     from .features.auth.routes import auth_bp
     from .features.orders.routes import orders_bp
+    from .features.courier.routes import courier_bp
 except ImportError:
     from db import close_db, init_db
     from features.auth.routes import auth_bp
     from features.orders.routes import orders_bp
+    from features.courier.routes import courier_bp
 
 
 def create_app():
@@ -30,6 +32,7 @@ def create_app():
     app.teardown_appcontext(close_db)
     app.register_blueprint(auth_bp)
     app.register_blueprint(orders_bp)
+    app.register_blueprint(courier_bp)
 
     @app.get("/api/health")
     def health():

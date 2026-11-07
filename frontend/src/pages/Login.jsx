@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { homePath } from "../roles";
 
 const initialForm = { email: "", password: "" };
 
@@ -23,8 +24,8 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      await login(form);
-      navigate("/orders/new", { replace: true });
+      const loggedIn = await login(form);
+      navigate(homePath(loggedIn), { replace: true });
     } catch (err) {
       setFormError(err.message);
     } finally {
