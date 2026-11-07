@@ -8,11 +8,13 @@ try:
     from .features.auth.routes import auth_bp
     from .features.orders.routes import orders_bp
     from .features.courier.routes import courier_bp
+    from .features.admin.routes import admin_bp
 except ImportError:
     from db import close_db, init_db
     from features.auth.routes import auth_bp
     from features.orders.routes import orders_bp
     from features.courier.routes import courier_bp
+    from features.admin.routes import admin_bp
 
 
 def create_app():
@@ -33,6 +35,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(orders_bp)
     app.register_blueprint(courier_bp)
+    app.register_blueprint(admin_bp)
 
     @app.get("/api/health")
     def health():

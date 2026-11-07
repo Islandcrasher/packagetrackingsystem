@@ -7,6 +7,7 @@ import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
 import CourierOrders from "./pages/CourierOrders";
 import CourierOrderStatus from "./pages/CourierOrderStatus";
+import AdminOrders from "./pages/AdminOrders";
 import { homePath } from "./roles";
 
 function ProtectedRoute({ children }) {
@@ -21,6 +22,14 @@ function CourierRoute({ children }) {
   if (loading) return <div className="page-loader">Loading...</div>;
   if (!user) return <Navigate to="/login" replace />;
   if (user.role !== "courier") return <Navigate to={homePath(user)} replace />;
+  return children;
+}
+
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="page-loader">Loading...</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role !== "admin") return <Navigate to={homePath(user)} replace />;
   return children;
 }
 
@@ -56,7 +65,11 @@ function Header() {
       <nav className="nav">
         {user ? (
           <>
-	    {user.role === "courier" ? (
+            {user.role === "admin" ? (
+              <Link to="/admin/orders" className="nav-link">
+                Manage Orders
+              </Link>
+            ) : user.role === "courier" ? (
               <Link to="/courier/orders" className="nav-link">
                 Assigned Orders
               </Link>
@@ -97,6 +110,7 @@ export default function App() {
       <Header />
       <main className="app-main">
         <Routes>
+          <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
           <Route path="/" element={<HomeRedirect />} />
           <Route
             path="/register"
