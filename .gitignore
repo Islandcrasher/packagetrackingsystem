@@ -1,0 +1,10 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+backend/app.db
+.env
+.env.local
+jar.txt
