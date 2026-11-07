@@ -49,4 +49,13 @@ export const api = {
   declineOrder: (id) => request(`/courier/orders/${id}/decline`, { method: "POST" }),
   updateOrderStatus: (id, status) =>
     request(`/courier/orders/${id}/status`, { method: "PATCH", body: { status } }),
+
+  // Admin (features #9 and #10)
+  adminOrders: () => request("/admin/orders"),
+  adminCouriers: () => request("/admin/couriers"),
+  adminUpdateOrderStatus: (id, status) =>
+    request(`/admin/orders/${id}/status`, { method: "PATCH", body: { status } }),
+  adminAssignCourier: (id, courierId) =>
+    request(`/admin/orders/${id}/courier`, { method: "PATCH", body: { courier_id: courierId } }),
+  adminDeleteOrder: (id) => request(`/admin/orders/${id}`, { method: "DELETE" }),
 };

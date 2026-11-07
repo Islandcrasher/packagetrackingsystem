@@ -1,0 +1,51 @@
+{
+  "info": {
+    "name": "SwiftShip - Admin (Features 9 & 10)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Login as admin",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@swiftship.com\",\n  \"password\": \"Admin@123\"\n}", "options": { "raw": { "language": "json" } } }
+      }
+    },
+    {
+      "name": "#9 List all orders",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/admin/orders" }
+    },
+    {
+      "name": "#10 List available couriers",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/admin/couriers" }
+    },
+    {
+      "name": "#9 Update order status",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/status",
+        "body": { "mode": "raw", "raw": "{\n  \"status\": \"pending\"\n}", "options": { "raw": { "language": "json" } } }
+      }
+    },
+    {
+      "name": "#10 Assign or reassign courier",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/orders/{{orderId}}/courier",
+        "body": { "mode": "raw", "raw": "{\n  \"courier_id\": 1\n}", "options": { "raw": { "language": "json" } } }
+      }
+    },
+    {
+      "name": "#9 Delete order",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/admin/orders/{{orderId}}" }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:5000" },
+    { "key": "orderId", "value": "1" }
+  ]
+}
