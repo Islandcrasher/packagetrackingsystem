@@ -61,6 +61,7 @@ def user_public(row) -> dict:
         "name": row["name"],
         "email": row["email"],
         "phone": row["phone"],
+        "role": row["role"],
     }
 
 
@@ -79,7 +80,7 @@ def auth_required(fn):
             return error("Invalid token", 401)
 
         row = get_db().execute(
-            "SELECT id, name, email, phone FROM users WHERE id = ?",
+            "SELECT id, name, email, phone, role FROM users WHERE id = ?",
             (user_id,),
         ).fetchone()
         if row is None:

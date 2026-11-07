@@ -1,0 +1,244 @@
+{
+  "info": {
+    "name": "SwiftShip - Courier (Features 7 & 8)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Login as courier (run first - sets the auth cookie)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Run `python seed_demo.py` first. The JWT is stored in a cookie automatically.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"courier@swiftship.com\",\n  \"password\": \"Courier@123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "#7 Get assigned orders of courier",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/1/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "1",
+            "orders"
+          ]
+        },
+        "description": "Replace 1 with the courier's id (from the login response). A courier can only see their own list."
+      }
+    },
+    {
+      "name": "#7 Get one assigned order (+ history)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "1"
+          ]
+        },
+        "description": ""
+      }
+    },
+    {
+      "name": "#7 Accept order",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/1/accept",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "1",
+            "accept"
+          ]
+        },
+        "description": ""
+      }
+    },
+    {
+      "name": "#7 Decline order",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/2/decline",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "2",
+            "decline"
+          ]
+        },
+        "description": ""
+      }
+    },
+    {
+      "name": "#8 Update status -> picked_up",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/1/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "1",
+            "status"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"picked_up\"\n}"
+        }
+      }
+    },
+    {
+      "name": "#8 Update status -> in_transit",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/1/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "1",
+            "status"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"in_transit\"\n}"
+        }
+      }
+    },
+    {
+      "name": "#8 Update status -> delivered",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/1/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "1",
+            "status"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"delivered\"\n}"
+        }
+      }
+    },
+    {
+      "name": "#8 Invalid status (expect 400)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/courier/orders/1/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "courier",
+            "orders",
+            "1",
+            "status"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"flying\"\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000"
+    }
+  ]
+}

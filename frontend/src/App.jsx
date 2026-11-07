@@ -5,6 +5,9 @@ import Login from "./pages/Login";
 import CreateOrder from "./pages/CreateOrder";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+import CourierOrders from "./pages/CourierOrders";
+import CourierOrderStatus from "./pages/CourierOrderStatus";
+import { homePath } from "./roles";
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -13,10 +16,24 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+function CourierRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="page-loader">Loading...</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role !== "courier") return <Navigate to={homePath(user)} replace />;
+  return children;
+}
+
+function HomeRedirect() {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="page-loader">Loading...</div>;
+  return <Navigate to={user ? homePath(user) : "/login"} replace />;
+}
+
 function GuestRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div className="page-loader">Loading...</div>;
-  if (user) return <Navigate to="/orders/new" replace />;
+  if (user) return <Navigate to={homePath(user)} replace />;
   return children;
 }
 
@@ -31,7 +48,7 @@ function Header() {
 
   return (
     <header className="site-header">
-      <Link to={user ? "/orders/new" : "/login"} className="brand">
+      <Link to={user ? homePath(user) : "/login"} className="brand">
         <span className="brand-mark">S</span>
         SwiftShip
       </Link>
@@ -39,9 +56,15 @@ function Header() {
       <nav className="nav">
         {user ? (
           <>
-	    <Link to="/orders" classname="nav-link">
-		My Orders
-	    </Link>
+	    {user.role === "courier" ? (
+              <Link to="/courier/orders" className="nav-link">
+                Assigned Orders
+              </Link>
+            ) : (
+              <Link to="/orders" className="nav-link">
+                My Orders
+              </Link>
+            )}
             <span className="nav-user">
               Hi, <strong>{user.name.split(" ")[0]}</strong>
             </span>
@@ -74,7 +97,7 @@ export default function App() {
       <Header />
       <main className="app-main">
         <Routes>
-          <Route path="/" element={<Navigate to="/orders/new" replace />} />
+          <Route path="/" element={<HomeRedirect />} />
           <Route
             path="/register"
             element={
@@ -113,6 +136,22 @@ export default function App() {
               <ProtectedRoute>
                 <OrderDetails />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/courier/orders"
+            element={
+              <CourierRoute>
+                <CourierOrders />
+              </CourierRoute>
+            }
+          />
+          <Route
+            path="/courier/orders/:id"
+            element={
+              <CourierRoute>
+                <CourierOrderStatus />
+              </CourierRoute>
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />

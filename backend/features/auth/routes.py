@@ -62,7 +62,7 @@ def register():
     )
     db.commit()
     row = db.execute(
-        "SELECT id, name, email, phone FROM users WHERE id = ?", (cursor.lastrowid,)
+        "SELECT id, name, email, phone, role FROM users WHERE id = ?", (cursor.lastrowid,)
     ).fetchone()
 
     return auth_response(
@@ -85,7 +85,7 @@ def login():
         return error("Invalid credentials", 401)
 
     row = get_db().execute(
-        "SELECT id, name, email, phone, password_hash FROM users WHERE email = ?",
+        "SELECT id, name, email, phone, role, password_hash FROM users WHERE email = ?",
         (email,),
     ).fetchone()
     if row is None or not check_password_hash(row["password_hash"], password):
